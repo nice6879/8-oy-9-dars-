@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="main-content">
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4>{{ quiz.name }} - Natijalar</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-md">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ism</th>
+                                <th>To'g'ri javoblar</th>
+                                <th>Xato javoblar</th>
+                                <th>To'g'ri javoblar foizi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ result.author.username }}</td>
+                                <td>{{ result.correct_answers }}</td>
+                                <td>{{ result.incorrect_answers }}</td>
+                                <td>{{ result.correct_percentage|floatformat:2 }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <a href="{% url 'export-results-excel' quiz.slug %}" class="btn btn-success">Export to Excel</a>
+            <a href="{% url 'export-results-word' quiz.slug %}" class="btn btn-success">Export to Word</a>
+        </div>
+    </section>
+</div>
+{% endblock %}
+

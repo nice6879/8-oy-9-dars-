@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="main-content" style="min-height: 608px;">
+    <section class="section">
+      <div class="section-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4>Savollar to'plamini yaratish</h4>
+              </div>
+              <form method="post">
+                {% csrf_token %}
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label>Savol matni</label>
+                        <textarea type="text" class="form-control" name="name"></textarea>
+                    </div>
+                    <div class="container mt-4">
+                        <div id="input-container">
+                            <div class="input-group mb-2">
+                                <input name="true" type="text" class="form-control" placeholder="To'g'ri javobni kiriting">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text bg-primary text-light add-button" style="cursor: pointer;">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <br>
+                <button type="submit" class="btn btn-primary ms-2">Yaratish</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Setting Sidebar Code (Unchanged) -->
+{% endblock %}
+
+{% block js %}
+<script>
+  function addInputGroup() {
+      var newInputGroup = document.createElement('div');
+      newInputGroup.className = 'input-group mb-2';
+      newInputGroup.innerHTML = `
+          <input name="false-list" type="text" class="form-control" placeholder="Noto'g'ri javob kiriting">
+          <div class="input-group-prepend">
+              <div class="input-group-text bg-primary text-light add-button" style="cursor: pointer;">
+                  <i class="fas fa-plus"></i>
+              </div>
+              <div class="input-group-text bg-danger text-light ml-1 remove-button" style="cursor: pointer;">
+                  <i class="fas fa-trash"></i>
+              </div>
+          </div>
+      `;
+      document.getElementById('input-container').appendChild(newInputGroup);
+      addEventListenersToButtons(); // Reattach event listeners to new buttons
+  }
+
+  function removeInputGroup(event) {
+      event.target.closest('.input-group').remove();
+  }
+
+  function addEventListenersToButtons() {
+      document.querySelectorAll('.add-button').forEach(function(button) {
+          button.removeEventListener('click', addInputGroup);
+          button.addEventListener('click', addInputGroup);
+      });
+
+      document.querySelectorAll('.remove-button').forEach(function(button) {
+          button.removeEventListener('click', removeInputGroup);
+          button.addEventListener('click', removeInputGroup);
+      });
+  }
+
+  // Initial event listener setup
+  addEventListenersToButtons();
+</script>
+{% endblock %}
